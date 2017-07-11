@@ -30,8 +30,8 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func observeGroups(){
         
-        refHandle = ref.observe(.childAdded, with: { (snapshot) -> Void in // 1
-            let groupData = snapshot.value as! Dictionary<String, AnyObject> // 2
+        refHandle = ref.observe(.childAdded, with: { (snapshot) -> Void in
+            let groupData = snapshot.value as! Dictionary<String, AnyObject>
             let id = snapshot.key
             
             let group = Group(name: groupData["Name"] as! String)
@@ -48,7 +48,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // 2
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 
         
         return groups.count
     }
