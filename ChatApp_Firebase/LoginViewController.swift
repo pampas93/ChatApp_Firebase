@@ -1,0 +1,52 @@
+//
+//  LoginViewController.swift
+//  ChatApp_Firebase
+//
+//  Created by Abhijit on 7/10/17.
+//  Copyright © 2017 Abhijit. All rights reserved.
+//
+
+import UIKit
+import Firebase
+
+class LoginViewController: UIViewController {
+
+    @IBOutlet weak var username: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        
+    }
+
+    @IBAction func SignInButton(_ sender: Any) {
+        //Sign in button function
+        
+        if username.text != ""{
+            
+            Auth.auth().signInAnonymously() { (user, error) in
+                if let err = error{
+                    print(err.localizedDescription)
+                    return
+                }
+                
+                self.performSegue(withIdentifier: "LoginSegue", sender: nil)
+                
+            }//end of Auth
+ 
+        }//end of if
+        
+        
+    }
+
+        /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
