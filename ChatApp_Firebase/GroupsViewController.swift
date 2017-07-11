@@ -9,9 +9,10 @@
 import UIKit
 import Firebase
 
-class GroupsViewController: UIViewController {
+class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var groupName: UITextField!
+    @IBOutlet weak var GroupsTable: UITableView!
     
     private var groups: [Group] = []
     
@@ -31,9 +32,27 @@ class GroupsViewController: UIViewController {
         return groups.count
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = GroupsTable.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as! GroupTableViewCell
+        
+        cell.groupName.text = groups[indexPath.row].name
+        
+        return cell
+    }
+    
     
 
     @IBAction func newGroupButton(_ sender: Any) {
+        
+        if groupName.text != ""{
+            
+            let group = Group(name: groupName.text!)
+            groups.append(group)
+            GroupsTable.reloadData()
+            groupName.text = ""
+            
+        }
         
     }
     
