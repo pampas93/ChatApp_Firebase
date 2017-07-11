@@ -44,6 +44,12 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
     }
     
+    /*deinit {
+        if let rHandle = refHandle {
+            refHandle.
+        }
+    }*/
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

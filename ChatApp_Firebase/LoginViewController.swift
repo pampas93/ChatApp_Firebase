@@ -12,6 +12,7 @@ import Firebase
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var username: UITextField!
+    var uName : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,7 @@ class LoginViewController: UIViewController {
                     print(err.localizedDescription)
                     return
                 }
-                
+                self.uName = self.username.text!
                 self.performSegue(withIdentifier: "LoginSegue", sender: nil)
                 
             }//end of Auth
@@ -43,8 +44,8 @@ class LoginViewController: UIViewController {
         
         if segue.identifier == "LoginSegue"{
             if let destination = segue.destination as? GroupsViewController{
-                
-                destination.username = username.text!
+                username.text?.removeAll()
+                destination.username = uName
             }
         }
         

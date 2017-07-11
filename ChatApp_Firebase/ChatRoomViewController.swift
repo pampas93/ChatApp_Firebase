@@ -21,11 +21,16 @@ class ChatRoomViewController: JSQMessagesViewController {
     
     @IBOutlet weak var grouptitle: UINavigationItem!
     
+    private var ref: DatabaseReference!
+    private var messageRef: DatabaseReference!
+    private var refHandle: DatabaseHandle?
+    
     override func viewWillAppear(_ animated: Bool) {
         
         //self.senderId = Auth.auth().currentUser?.uid
         //OR 
         self.senderId = username
+        
     }
 
     override func viewDidLoad() {
@@ -34,17 +39,44 @@ class ChatRoomViewController: JSQMessagesViewController {
         print(groupName)
         grouptitle.title = groupName
         self.senderId = username
+        
+        ref = Database.database().reference().child("Groups")
+        setReference()
+        
+        self.inputToolbar.contentView.leftBarButtonItem = nil
+        
         //Making the avatar size zero
         collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
-        addMessage(withId: "foo", name: "Mr.Bolt", text: "I am so fast!")
+        /*addMessage(withId: "foo", name: "Mr.Bolt", text: "I am so fast!")
         // messages sent from local sender
         addMessage(withId: senderId, name: "Me", text: "I bet I can run faster than you!")
         addMessage(withId: senderId, name: "Me", text: "I like to run!")
         // animates the receiving of a new message on the view
         finishReceivingMessage()
+        */
+        
+        //observeMessages()
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        observeMessages()
+    }
+    
+    //Getting the reference of that perticular Group name
+    private func setReference(){
+        ref.queryOrdered(byChild: "Name").queryEqual(toValue: groupName).observeSingleEvent(of: .value, with: { snapshot in
+            
+            for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                if let key = rest.key as? String{
+                    self.messageRef = Database.database().reference().child("Groups").child(key).child("Messages")
+                    break
+                }
+            }
+        })
+        
     }
     
     //Adding a JSQMessage type into Messages array
@@ -52,6 +84,45 @@ class ChatRoomViewController: JSQMessagesViewController {
         if let message = JSQMessage(senderId: id, displayName: name, text: text) {
             messages.append(message)
         }
+        
+        
+    }
+    
+    //Function when send is pressed
+    override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+        
+        let itemRef = messageRef.childByAutoId()
+        let messageItem = [
+            "senderId": senderId!,
+            "senderName": username,
+            "text": text!,
+            ]
+        
+        itemRef.setValue(messageItem)
+        
+        finishSendingMessage()
+        
+    }
+    
+    //Observing for messages in the Group and adding them to messages array
+    private func observeMessages() {
+        
+        refHandle = messageRef.observe(.childAdded, with: { (snapshot) -> Void in
+
+            print(snapshot.value)
+            if let messageData = snapshot.value as? Dictionary<String, String>{
+            print(messageData)
+            
+            if let id = messageData["senderId"] as String!, let name = messageData["senderName"] as String!, let text = messageData["text"] as String!, text.characters.count > 0 {
+
+                self.addMessage(withId: id, name: name, text: text)
+                
+                self.finishReceivingMessage()
+            } else {
+                print("Error! Could not decode message data")
+            }
+            }
+        })
     }
     
     //Datasource for the View
