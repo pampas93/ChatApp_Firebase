@@ -16,6 +16,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var username : String = "Anonymous"
     private var groups: [Group] = []
+    var selectedCell : String = ""
     
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
@@ -58,6 +59,24 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.groupName.text = groups[indexPath.row].name
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        selectedCell = groups[indexPath.row].name
+        performSegue(withIdentifier: "groupSegue", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "groupSegue"{
+            if let destination = segue.destination as? ChatRoomViewController{
+                
+                destination.username = username
+                destination.groupName = selectedCell
+            }
+            
+        }
     }
     
     

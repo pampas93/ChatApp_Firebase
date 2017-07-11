@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="QcN-8a-u6W">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -43,6 +43,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="1Jp-x8-H7d"/>
                     <connections>
                         <outlet property="username" destination="7rz-wg-NdH" id="D8j-6h-2Hr"/>
                         <segue destination="Ot4-Vi-Z8A" kind="show" identifier="LoginSegue" id="aiD-zq-35Z"/>
@@ -50,9 +51,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="117.59999999999999" y="123.68815592203899"/>
+            <point key="canvasLocation" x="1996" y="123.68815592203899"/>
         </scene>
-        <!--Groups View Controller-->
+        <!--Groups-->
         <scene sceneID="5y3-WN-lVS">
             <objects>
                 <viewController id="Ot4-Vi-Z8A" customClass="GroupsViewController" customModule="ChatApp_Firebase" customModuleProvider="target" sceneMemberID="viewController">
@@ -65,7 +66,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="5th-mf-bFi">
-                                <rect key="frame" x="87.5" y="50" width="200" height="58"/>
+                                <rect key="frame" x="87.5" y="94" width="200" height="58"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="New Group" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="10B-nE-9Lc">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="22"/>
@@ -97,7 +98,7 @@
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5hf-Xj-vZz">
-                                <rect key="frame" x="0.0" y="115" width="375" height="552"/>
+                                <rect key="frame" x="0.0" y="159" width="375" height="508"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" id="R5M-EE-Ryb" customClass="GroupTableViewCell" customModule="ChatApp_Firebase" customModuleProvider="target">
@@ -137,14 +138,56 @@
                             <constraint firstItem="5th-mf-bFi" firstAttribute="centerX" secondItem="GFw-DK-iid" secondAttribute="centerX" id="z1t-KV-Jae"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Groups" id="9SG-gA-ySB"/>
                     <connections>
                         <outlet property="GroupsTable" destination="5hf-Xj-vZz" id="JDB-a3-Xo3"/>
                         <outlet property="groupName" destination="10B-nE-9Lc" id="rP0-Ru-4ta"/>
+                        <segue destination="jYg-OK-VJ7" kind="show" identifier="groupSegue" id="KUI-fn-fXU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G6z-Fk-Q1h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="848.79999999999995" y="128.18590704647679"/>
+            <point key="canvasLocation" x="2727.1999999999998" y="128.18590704647679"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="QrV-Dk-p8l">
+            <objects>
+                <viewController id="jYg-OK-VJ7" customClass="ChatRoomViewController" customModule="ChatApp_Firebase" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Yg5-SC-G1F"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zwy-qG-5s7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hvO-sI-ZT7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="VzS-GX-wyk"/>
+                    <connections>
+                        <outlet property="grouptitle" destination="VzS-GX-wyk" id="YbG-yK-24H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AVY-lK-2F2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3492" y="127.28635682158921"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5Hz-8U-IUt">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QcN-8a-u6W" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gK1-P5-ibY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="el7-mz-0IM"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UtZ-aO-Pe6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1056.8" y="123.68815592203899"/>
         </scene>
     </scenes>
 </document>

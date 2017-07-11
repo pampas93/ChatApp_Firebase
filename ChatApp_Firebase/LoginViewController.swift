@@ -42,7 +42,6 @@ class LoginViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "LoginSegue"{
-            
             if let destination = segue.destination as? GroupsViewController{
                 
                 destination.username = username.text!
