@@ -14,13 +14,33 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var groupName: UITextField!
     @IBOutlet weak var GroupsTable: UITableView!
     
+    var username : String = "Anonymous"
     private var groups: [Group] = []
+    
+    private var ref: DatabaseReference!
+    private var refHandle: DatabaseHandle?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        ref = Database.database().reference().child("Groups")
+        observeGroups()
+    }
+    
+    func observeGroups(){
+        
+        refHandle = ref.observe(.childAdded, with: { (snapshot) -> Void in // 1
+            let groupData = snapshot.value as! Dictionary<String, AnyObject> // 2
+            let id = snapshot.key
+            
+            let group = Group(name: groupData["Name"] as! String)
+            self.groups.append(group)
+            
+            self.GroupsTable.reloadData()
+            //print(channelData)
+            //print(id)
+            
+        })
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -35,7 +55,6 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = GroupsTable.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as! GroupTableViewCell
-        
         cell.groupName.text = groups[indexPath.row].name
         
         return cell
@@ -47,8 +66,14 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if groupName.text != ""{
             
-            let group = Group(name: groupName.text!)
-            groups.append(group)
+            let newRef = ref.childByAutoId()
+            let newGroup = [
+                "Name" : groupName.text!,
+                "CreatedBy" : username
+            ] as [String : Any]
+            
+            newRef.setValue(newGroup)
+            
             GroupsTable.reloadData()
             groupName.text = ""
             
