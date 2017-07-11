@@ -16,6 +16,14 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Specify date components
+        var dateComponents = DateComponents()
+        dateComponents.timeZone = TimeZone(abbreviation: "EST") // Eastern Time zone
+
+        
+        
+        
 
         
     }

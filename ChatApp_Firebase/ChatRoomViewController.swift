@@ -14,6 +14,7 @@ class ChatRoomViewController: JSQMessagesViewController {
     
     var groupName : String = "Blah"
     var username : String = "Not Set yet"
+    var groupId : String = "123"
     var messages = [JSQMessage]()
     
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
@@ -41,7 +42,8 @@ class ChatRoomViewController: JSQMessagesViewController {
         self.senderId = username
         
         ref = Database.database().reference().child("Groups")
-        setReference()
+        self.messageRef = Database.database().reference().child("Groups").child(groupId).child("Messages")
+        
         
         self.inputToolbar.contentView.leftBarButtonItem = nil
         
@@ -57,27 +59,24 @@ class ChatRoomViewController: JSQMessagesViewController {
         finishReceivingMessage()
         */
         
-        //observeMessages()
+        observeMessages()
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        observeMessages()
-    }
     
     //Getting the reference of that perticular Group name
-    private func setReference(){
+    /*private func setReference(){
         ref.queryOrdered(byChild: "Name").queryEqual(toValue: groupName).observeSingleEvent(of: .value, with: { snapshot in
             
             for rest in snapshot.children.allObjects as! [DataSnapshot]{
                 if let key = rest.key as? String{
-                    self.messageRef = Database.database().reference().child("Groups").child(key).child("Messages")
+                    
                     break
                 }
             }
         })
         
-    }
+    }*/
     
     //Adding a JSQMessage type into Messages array
     private func addMessage(withId id: String, name: String, text: String) {

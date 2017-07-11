@@ -16,30 +16,43 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var username : String = "Anonymous"
     private var groups: [Group] = []
-    var selectedCell : String = ""
+    var selectedCell = ["ID": "", "Name": ""]
     
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
+    
+    let formatter = DateFormatter()
+    
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         ref = Database.database().reference().child("Groups")
+        
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.timeZone = TimeZone(identifier:"GMT")
+        
         observeGroups()
     }
     
     func observeGroups(){
         
         refHandle = ref.observe(.childAdded, with: { (snapshot) -> Void in
-            let groupData = snapshot.value as! Dictionary<String, AnyObject>
-            let id = snapshot.key
             
-            let group = Group(name: groupData["Name"] as! String)
+            if let groupData = snapshot.value as? Dictionary<String, AnyObject>{
+            let groupId = snapshot.key
+            let lma = groupData["LastMessageAdded"] as! String
+            
+            let lmaDate = self.formatter.date(from: lma)
+            
+            
+            let group = Group(id: groupId, name: groupData["Name"] as! String, lma: lmaDate!)
             self.groups.append(group)
             
             self.GroupsTable.reloadData()
             //print(channelData)
             //print(id)
+            }
             
         })
     }
@@ -69,7 +82,8 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        selectedCell = groups[indexPath.row].name
+        selectedCell["Name"] = groups[indexPath.row].name
+        selectedCell["ID"] = groups[indexPath.row].id
         performSegue(withIdentifier: "groupSegue", sender: nil)
     }
     
@@ -79,7 +93,9 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if let destination = segue.destination as? ChatRoomViewController{
                 
                 destination.username = username
-                destination.groupName = selectedCell
+                destination.groupName = selectedCell["Name"]!
+                destination.groupId = selectedCell["ID"]!
+                
             }
             
         }
@@ -91,10 +107,14 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if groupName.text != ""{
             
+            let currentDT = Date()
+            let dStr = formatter.string(from: currentDT)
+            
             let newRef = ref.childByAutoId()
             let newGroup = [
                 "Name" : groupName.text!,
-                "CreatedBy" : username
+                "CreatedBy" : username,
+                "LastMessageAdded" : dStr
             ] as [String : Any]
             
             newRef.setValue(newGroup)

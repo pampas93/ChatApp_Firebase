@@ -10,9 +10,13 @@ import Foundation
 
 class  Group{
     
+    let id: String
     let name: String
+    let lma : Date
     
-    init(name: String) {
+    init(id: String, name: String, lma: Date) {
+        self.id = id
         self.name = name
+        self.lma = lma
     }
 }
