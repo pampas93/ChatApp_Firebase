@@ -6,6 +6,8 @@
 //  Copyright © 2017 Abhijit. All rights reserved.
 //
 
+//Anonymous Login
+
 import UIKit
 import Firebase
 

@@ -13,6 +13,7 @@
 		7C7999B01F1478F200A7C6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C7999AE1F1478F200A7C6B4 /* Main.storyboard */; };
 		7C7999B21F1478F200A7C6B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C7999B11F1478F200A7C6B4 /* Assets.xcassets */; };
 		7C7999B51F1478F200A7C6B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C7999B31F1478F200A7C6B4 /* LaunchScreen.storyboard */; };
+		7CCBF2B11F159F1D00406E11 /* RegsiterLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCBF2B01F159F1D00406E11 /* RegsiterLoginViewController.swift */; };
 		7CFA029F1F14812600F95771 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7CFA029E1F14812600F95771 /* GoogleService-Info.plist */; };
 		7CFA02A11F1484B500F95771 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFA02A01F1484B500F95771 /* LoginViewController.swift */; };
 		7CFA02A31F148CA800F95771 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFA02A21F148CA800F95771 /* GroupsViewController.swift */; };
@@ -28,6 +29,7 @@
 		7C7999B11F1478F200A7C6B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C7999B41F1478F200A7C6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C7999B61F1478F200A7C6B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CCBF2B01F159F1D00406E11 /* RegsiterLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegsiterLoginViewController.swift; sourceTree = "<group>"; };
 		7CFA029E1F14812600F95771 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7CFA02A01F1484B500F95771 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7CFA02A21F148CA800F95771 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				7C7999B31F1478F200A7C6B4 /* LaunchScreen.storyboard */,
 				7C7999B61F1478F200A7C6B4 /* Info.plist */,
 				7CFA02A01F1484B500F95771 /* LoginViewController.swift */,
+				7CCBF2B01F159F1D00406E11 /* RegsiterLoginViewController.swift */,
 				7CFA02A21F148CA800F95771 /* GroupsViewController.swift */,
 				7CFA02A61F14907300F95771 /* GroupTableViewCell.swift */,
 				7CFA02A41F148FEB00F95771 /* Group.swift */,
@@ -229,6 +232,7 @@
 			files = (
 				7CFA02A11F1484B500F95771 /* LoginViewController.swift in Sources */,
 				7C7999AB1F1478F200A7C6B4 /* AppDelegate.swift in Sources */,
+				7CCBF2B11F159F1D00406E11 /* RegsiterLoginViewController.swift in Sources */,
 				7CFA02A31F148CA800F95771 /* GroupsViewController.swift in Sources */,
 				7CFA02A51F148FEB00F95771 /* Group.swift in Sources */,
 				7CFA02A71F14907300F95771 /* GroupTableViewCell.swift in Sources */,
