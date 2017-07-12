@@ -17,15 +17,18 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var mailid : String = "Anonymous"
     var userID : String = "not yet"
     var name : String = "Not yet"
+    var userLastSeen = Date()
     
     private var groups: [Group] = []
     var selectedCell = ["ID": "", "Name": ""]
     
     private var ref: DatabaseReference!
     private var refHandle: DatabaseHandle?
+    private var refHandle2: DatabaseHandle?
     
     let formatter = DateFormatter()
     
+    @IBOutlet weak var createGroupOutlet: UIButton!
     
     override func viewDidLoad() {
         
@@ -36,10 +39,15 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         formatter.timeZone = TimeZone(identifier:"GMT")
         
         observeGroups()
+        
+        //To remove Confusion! Need to remove later!!
+        createGroupOutlet.isHidden = true
     }
     
     //This is always executed after viewDidLoad()
     override func viewWillAppear(_ animated: Bool) {
+        
+        
         
         let userRef = Database.database().reference().child("Users")
         
@@ -54,11 +62,36 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 if let value = rest.value as? NSDictionary{
                     self.name = value["Name"] as! String
+                    let tempDate = value["LastMessageSeen"] as! String
+                    self.userLastSeen = self.formatter.date(from: tempDate)!
+                    
+                    
+                    //Need to reload table; because table is loaded before control comes here.
+                    self.GroupsTable.reloadData()
+                    
                     break
                 }
             }
         })
         
+        
+        
+        
+        /*refHandle2 = ref.observe(DataEventType.value, with: { (snapshot) -> Void in
+            
+            if let groupData = snapshot.value as? Dictionary<String, AnyObject>{
+
+                let lma = groupData["LastMessageAdded"] as! String
+                let lmaDate = self.formatter.date(from: lma)
+                
+                if let i = groups.index(where: { $0.name == Foo })
+                    .index(where: { $0.name == Foo }) {
+                    return array[i]
+                }
+                
+            }
+        })
+        */
         
     }
     
@@ -99,6 +132,17 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let gDate = groups[indexPath.row].lma
+        
+        print(userLastSeen)
+        
+        if userLastSeen < gDate{
+            print("GLOOOOOOOOOW")
+            let alert = UIAlertController(title: "New Messages", message: "You have new messages on the Groupchat", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
         let cell = GroupsTable.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as! GroupTableViewCell
         cell.groupName.text = groups[indexPath.row].name
         
@@ -127,6 +171,15 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    @IBAction func signOutButton(_ sender: Any) {
+        
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+    }
     
 
     @IBAction func newGroupButton(_ sender: Any) {

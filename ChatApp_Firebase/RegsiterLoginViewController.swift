@@ -60,6 +60,8 @@ class RegsiterLoginViewController: UIViewController {
                     print("User successfully registered and signed in")
                     self.addIntoDatabase()
                     self.performSegue(withIdentifier: "AuthSegue", sender: nil)
+                }else{
+                    print(error)
                 }
             }
         }

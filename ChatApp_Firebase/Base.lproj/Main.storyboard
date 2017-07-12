@@ -243,10 +243,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Groups" id="9SG-gA-ySB">
-                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="OIY-9F-vlJ"/>
+                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="OIY-9F-vlJ">
+                            <connections>
+                                <action selector="signOutButton:" destination="Ot4-Vi-Z8A" id="JUT-zi-WMM"/>
+                                <segue destination="eQa-SB-meu" kind="show" identifier="signOutSegue" id="JPM-yR-DLB"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="GroupsTable" destination="5hf-Xj-vZz" id="JDB-a3-Xo3"/>
+                        <outlet property="createGroupOutlet" destination="Uup-7n-tYW" id="mJV-Eg-qYY"/>
                         <outlet property="groupName" destination="10B-nE-9Lc" id="rP0-Ru-4ta"/>
                         <segue destination="jYg-OK-VJ7" kind="show" identifier="groupSegue" id="KUI-fn-fXU"/>
                     </connections>
@@ -315,6 +321,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="jnj-NK-6yc"/>
+        <segue reference="aiD-zq-35Z"/>
+        <segue reference="JPM-yR-DLB"/>
     </inferredMetricsTieBreakers>
 </document>

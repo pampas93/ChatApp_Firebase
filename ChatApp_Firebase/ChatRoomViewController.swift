@@ -33,11 +33,7 @@ class ChatRoomViewController: JSQMessagesViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print(username)
-        print(userID)
-        
-        print(groupName)
+
         grouptitle.title = groupName
         self.senderId = username
         
@@ -75,13 +71,18 @@ class ChatRoomViewController: JSQMessagesViewController {
         
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        
+    override func viewWillDisappear(_ animated: Bool) {
         let currentDT = Date()
         let dStr = formatter.string(from: currentDT)
         
         var userRef : DatabaseReference!
-        //userRef = Database.database().reference().child("Users")......................................
+        userRef = Database.database().reference().child("Users")
+        userRef.child(userID).child("LastMessageSeen").setValue(dStr)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+       
     }
     
     //Adding a JSQMessage type into Messages array
