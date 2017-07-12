@@ -19,15 +19,6 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Specify date components
-        var dateComponents = DateComponents()
-        dateComponents.timeZone = TimeZone(abbreviation: "EST") // Eastern Time zone
-
-        
-        
-        
-
-        
     }
 
     @IBAction func SignInButton(_ sender: Any) {
@@ -55,21 +46,12 @@ class LoginViewController: UIViewController {
         if segue.identifier == "LoginSegue"{
             if let destination = segue.destination as? GroupsViewController{
                 username.text?.removeAll()
-                destination.username = uName
+                destination.mailid = uName
+                destination.userID = uName
             }
         }
         
         
     }
-
-        /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

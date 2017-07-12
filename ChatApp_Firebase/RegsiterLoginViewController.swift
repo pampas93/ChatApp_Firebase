@@ -19,11 +19,20 @@ class RegsiterLoginViewController: UIViewController {
     @IBOutlet weak var emailID: UITextField!
     @IBOutlet weak var password: UITextField!
     
+    private var ref: DatabaseReference!
+    private var refHandle: DatabaseHandle?
+    
+    var formatter = DateFormatter()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        ref = Database.database().reference().child("Users")
+        
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.timeZone = TimeZone(identifier:"GMT")
+        
     }
 
     @IBAction func loginButton(_ sender: Any) {
@@ -49,6 +58,7 @@ class RegsiterLoginViewController: UIViewController {
                 
                 if error == nil{
                     print("User successfully registered and signed in")
+                    self.addIntoDatabase()
                     self.performSegue(withIdentifier: "AuthSegue", sender: nil)
                 }
             }
@@ -56,11 +66,35 @@ class RegsiterLoginViewController: UIViewController {
         
     }
     
+    func addIntoDatabase(){
+        
+        let currentDT = Date()
+        let dStr = formatter.string(from: currentDT)
+        
+        let newRef = ref.childByAutoId()
+        let newUser = [
+            "Name" : name.text!,
+            "EmailId" : emailID.text!,
+            "LastMessageSeen" : dStr
+            ] as [String : Any]
+        
+        newRef.setValue(newUser)
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "AuthSegue"{
             if let destination = segue.destination as? GroupsViewController{
-                destination.username = "Some Name"
+                
+                if emailID.text != ""{                      //User registered
+                    destination.mailid = emailID.text!
+                }
+                else{                                       //User Signed in
+                    destination.mailid = loginMailID.text!
+                }
+                
+                
             }
         }
         

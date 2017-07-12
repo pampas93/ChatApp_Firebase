@@ -14,7 +14,10 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var groupName: UITextField!
     @IBOutlet weak var GroupsTable: UITableView!
     
-    var username : String = "Anonymous"
+    var mailid : String = "Anonymous"
+    var userID : String = "not yet"
+    var name : String = "Not yet"
+    
     private var groups: [Group] = []
     var selectedCell = ["ID": "", "Name": ""]
     
@@ -35,6 +38,30 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         observeGroups()
     }
     
+    //This is always executed after viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        
+        let userRef = Database.database().reference().child("Users")
+        
+        userRef.queryOrdered(byChild: "EmailId").queryEqual(toValue: mailid).observeSingleEvent(of: .value, with: { snapshot in
+            
+            for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                
+                //print(rest)
+                if let key = rest.key as? String{
+                    self.userID = key
+                }
+                
+                if let value = rest.value as? NSDictionary{
+                    self.name = value["Name"] as! String
+                    break
+                }
+            }
+        })
+        
+        
+    }
+    
     func observeGroups(){
         
         refHandle = ref.observe(.childAdded, with: { (snapshot) -> Void in
@@ -50,8 +77,6 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.groups.append(group)
             
             self.GroupsTable.reloadData()
-            //print(channelData)
-            //print(id)
             }
             
         })
@@ -92,9 +117,10 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if segue.identifier == "groupSegue"{
             if let destination = segue.destination as? ChatRoomViewController{
                 
-                destination.username = username
+                destination.username = name
                 destination.groupName = selectedCell["Name"]!
                 destination.groupId = selectedCell["ID"]!
+                destination.userID = userID
                 
             }
             
@@ -113,7 +139,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let newRef = ref.childByAutoId()
             let newGroup = [
                 "Name" : groupName.text!,
-                "CreatedBy" : username,
+                "CreatedBy" : mailid,
                 "LastMessageAdded" : dStr
             ] as [String : Any]
             
